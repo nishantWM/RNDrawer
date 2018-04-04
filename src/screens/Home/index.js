@@ -16,7 +16,7 @@ export default class Home extends Component {
             <View style={styles.container}>
                 <Text style={styles.label}>Home</Text>
                 <FloatingButton color={'#FFA07A'}
-                                icon_name={'plus'}
+                                icon_name={'user'}
                                 size={'normal'}
                                 onPress={() => Alert.alert('Button Pressed')}
                 />

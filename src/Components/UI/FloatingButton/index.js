@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import {COLOR} from '../../../utils/color';
 import {styles} from "./styles";
 
-export default class FloatingButton extends Component {
+class FloatingButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,52 +18,55 @@ export default class FloatingButton extends Component {
         }
     }
 
-    static propTypes = {
-        color: PropTypes.string,
-        size: PropTypes.oneOf(['small', 'normal', 'large']),
-        icon_name: PropTypes.string.isRequired,
-        onPress: PropTypes.func
-    };
+    icon_size: 0;
+    child_icon_size: 0;
 
-    static defaultProps = {
-        color: COLOR.WHITE,
-        size: 'normal'
-    };
-
-    render = () => {
-        const {color, size, icon_name, onPress} = this.props;
-        let icon_size = 0, child_icon_size = 0;
-        if (size === 'small') {
-            icon_size = 15;
-            child_icon_size = 11;
-        } else if (size === 'normal') {
-            icon_size = 25;
-            child_icon_size = 15;
+    render() {
+        if (this.props.size === 'small') {
+            this.icon_size = 15;
+            this.child_icon_size = 11;
+        } else if (this.props.size === 'normal') {
+            this.icon_size = 25;
+            this.child_icon_size = 15;
         } else {
-            icon_size = 35;
-            child_icon_size = 25;
+            this.icon_size = 35;
+            this.child_icon_size = 25;
         }
         return (
-            <View style={styles.container}>
+            <View style={[styles.container,]}>
                 {this.state.expand &&
-                <TouchableOpacity style={[styles.controls, {backgroundColor: color}]}
+                <TouchableOpacity style={[styles.controls, {backgroundColor: this.props.color}]}
                                   activeOpacity={0.5}
-                                  onPress={onPress}>
+                                  onPress={this.props.onPress}>
                     <Icon name={'activity'}
-                          size={child_icon_size}/>
+                          size={this.child_icon_size}/>
                 </TouchableOpacity>
                 }
-                <TouchableOpacity style={[styles.controls, {backgroundColor: color}]}
+                <TouchableOpacity style={[styles.controls, {backgroundColor: this.props.color}]}
                                   activeOpacity={0.5}
                                   onPress={() => {
                                       this.setState((previousState, props) => ({
                                           expand: !previousState.expand
                                       }));
                                   }}>
-                    <Icon name={icon_name}
-                          size={icon_size}/>
+                    <Icon name={this.props.icon_name}
+                          size={this.icon_size}/>
                 </TouchableOpacity>
             </View>
         );
     };
 }
+
+FloatingButton.propTypes = {
+    color: PropTypes.string,
+    size: PropTypes.oneOf(['small', 'normal', 'large']),
+    icon_name: PropTypes.string.isRequired,
+    onPress: PropTypes.func
+};
+
+FloatingButton.defaultProps = {
+    color: COLOR.WHITE,
+    size: 'normal'
+};
+
+export default FloatingButton;
